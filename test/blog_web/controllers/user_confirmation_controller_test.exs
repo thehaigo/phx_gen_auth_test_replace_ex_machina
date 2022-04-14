@@ -3,10 +3,9 @@ defmodule BlogWeb.UserConfirmationControllerTest do
 
   alias Blog.Accounts
   alias Blog.Repo
-  import Blog.AccountsFixtures
 
   setup do
-    %{user: user_fixture()}
+    %{user: insert(:user)}
   end
 
   describe "GET /users/confirm" do

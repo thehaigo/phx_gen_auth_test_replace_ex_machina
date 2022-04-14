@@ -1,8 +1,6 @@
 defmodule BlogWeb.UserRegistrationControllerTest do
   use BlogWeb.ConnCase, async: true
 
-  import Blog.AccountsFixtures
-
   describe "GET /users/register" do
     test "renders registration page", %{conn: conn} do
       conn = get(conn, Routes.user_registration_path(conn, :new))
@@ -13,7 +11,7 @@ defmodule BlogWeb.UserRegistrationControllerTest do
     end
 
     test "redirects if already logged in", %{conn: conn} do
-      conn = conn |> log_in_user(user_fixture()) |> get(Routes.user_registration_path(conn, :new))
+      conn = conn |> log_in_user(insert(:user)) |> get(Routes.user_registration_path(conn, :new))
       assert redirected_to(conn) == "/"
     end
   end
@@ -21,11 +19,11 @@ defmodule BlogWeb.UserRegistrationControllerTest do
   describe "POST /users/register" do
     @tag :capture_log
     test "creates account and logs the user in", %{conn: conn} do
-      email = unique_user_email()
+      %{email: email} = user = params_for(:user)
 
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => valid_user_attributes(email: email)
+          "user" => user
         })
 
       assert get_session(conn, :user_token)

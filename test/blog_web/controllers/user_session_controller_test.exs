@@ -1,10 +1,8 @@
 defmodule BlogWeb.UserSessionControllerTest do
   use BlogWeb.ConnCase, async: true
 
-  import Blog.AccountsFixtures
-
   setup do
-    %{user: user_fixture()}
+    %{user: insert(:user)}
   end
 
   describe "GET /users/log_in" do
@@ -26,7 +24,7 @@ defmodule BlogWeb.UserSessionControllerTest do
     test "logs the user in", %{conn: conn, user: user} do
       conn =
         post(conn, Routes.user_session_path(conn, :create), %{
-          "user" => %{"email" => user.email, "password" => valid_user_password()}
+          "user" => %{"email" => user.email, "password" => user.password}
         })
 
       assert get_session(conn, :user_token)
@@ -45,7 +43,7 @@ defmodule BlogWeb.UserSessionControllerTest do
         post(conn, Routes.user_session_path(conn, :create), %{
           "user" => %{
             "email" => user.email,
-            "password" => valid_user_password(),
+            "password" => user.password,
             "remember_me" => "true"
           }
         })
@@ -61,7 +59,7 @@ defmodule BlogWeb.UserSessionControllerTest do
         |> post(Routes.user_session_path(conn, :create), %{
           "user" => %{
             "email" => user.email,
-            "password" => valid_user_password()
+            "password" => user.password
           }
         })
 

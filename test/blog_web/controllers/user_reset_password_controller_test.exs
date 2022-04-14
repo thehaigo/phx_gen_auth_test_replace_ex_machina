@@ -3,10 +3,9 @@ defmodule BlogWeb.UserResetPasswordControllerTest do
 
   alias Blog.Accounts
   alias Blog.Repo
-  import Blog.AccountsFixtures
 
   setup do
-    %{user: user_fixture()}
+    %{user: insert(:user)}
   end
 
   describe "GET /users/reset_password" do

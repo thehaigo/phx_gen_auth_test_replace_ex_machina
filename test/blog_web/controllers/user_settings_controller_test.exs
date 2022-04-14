@@ -2,7 +2,6 @@ defmodule BlogWeb.UserSettingsControllerTest do
   use BlogWeb.ConnCase, async: true
 
   alias Blog.Accounts
-  import Blog.AccountsFixtures
 
   setup :register_and_log_in_user
 
@@ -25,7 +24,7 @@ defmodule BlogWeb.UserSettingsControllerTest do
       new_password_conn =
         put(conn, Routes.user_settings_path(conn, :update), %{
           "action" => "update_password",
-          "current_password" => valid_user_password(),
+          "current_password" => user.password,
           "user" => %{
             "password" => "new valid password",
             "password_confirmation" => "new valid password"
@@ -65,7 +64,7 @@ defmodule BlogWeb.UserSettingsControllerTest do
       conn =
         put(conn, Routes.user_settings_path(conn, :update), %{
           "action" => "update_email",
-          "current_password" => valid_user_password(),
+          "current_password" => user.password,
           "user" => %{"email" => unique_user_email()}
         })
 

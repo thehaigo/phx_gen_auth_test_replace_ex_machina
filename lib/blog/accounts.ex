@@ -210,7 +210,7 @@ defmodule Blog.Accounts do
     |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
     |> Repo.transaction()
     |> case do
-      {:ok, %{user: user}} -> {:ok, user}
+      {:ok, %{user: user}} -> {:ok, Map.put(user, :password, nil)}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
@@ -346,7 +346,7 @@ defmodule Blog.Accounts do
     |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, :all))
     |> Repo.transaction()
     |> case do
-      {:ok, %{user: user}} -> {:ok, user}
+      {:ok, %{user: user}} -> {:ok, Map.put(user, :password, nil)}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
